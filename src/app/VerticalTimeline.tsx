@@ -6,7 +6,7 @@ import { IoDiamondOutline } from "react-icons/io5";
 
 type Section = {
   id: string;
-  icon: React.ComponentType; // Type for React components
+  icon: React.ComponentType<{ className?: string }>; // Type for React components with className prop
 };
 
 type VerticalTimelineProps = {
