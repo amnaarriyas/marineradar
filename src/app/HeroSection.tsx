@@ -1,11 +1,12 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { FaApple, FaGooglePlay } from 'react-icons/fa'
-import { useEffect, useRef } from 'react'
-import * as THREE from 'three'
-import './globals.css'
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { FaApple, FaGooglePlay } from 'react-icons/fa';
+import { AiOutlineAppstore } from 'react-icons/ai'; // timeline icon for HeroSection
+import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import './globals.css';
 
 // === 3D EARTH SPHERE COMPONENT === //
 const HeroSection: React.FC = () => {
@@ -13,14 +14,18 @@ const HeroSection: React.FC = () => {
 
   useEffect(() => {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
     mountRef.current?.appendChild(renderer.domElement);
 
-    // Create Earth mesh
     const texture = new THREE.TextureLoader().load('/2k_earth_nightmap.jpg');
     const geometry = new THREE.SphereGeometry(2.5, 32, 32);
     const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -29,7 +34,6 @@ const HeroSection: React.FC = () => {
 
     camera.position.z = 8;
 
-    // Lights
     const ambientLight = new THREE.AmbientLight(0x404040, 3);
     scene.add(ambientLight);
 
@@ -37,7 +41,6 @@ const HeroSection: React.FC = () => {
     directionalLight.position.set(5, 5, 5).normalize();
     scene.add(directionalLight);
 
-    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
       earth.rotation.y += 0.01;
@@ -46,7 +49,6 @@ const HeroSection: React.FC = () => {
 
     animate();
 
-    // Handle screen resize
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -57,7 +59,6 @@ const HeroSection: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
@@ -76,18 +77,16 @@ const HeroSection: React.FC = () => {
         height: '100vh',
       }}
     />
-  )
-}
+  );
+};
 
 // === HERO CONTENT WITH TEXT AND EARTH === //
 const HeroSectionContent: React.FC = () => {
   return (
-    <div className="absolute top-0 left-0 relative min-h-screen bg-black text-white overflow-hidden">
+    <div className="relative min-h-screen bg-black text-white overflow-hidden" id="hero">
       {/* Navbar */}
       <div className="absolute top-0 left-0 w-full z-20 flex items-center justify-between px-6 py-6 sm:px-16 sm:py-8 md:px-24">
-        <div className="flex items-center gap-2 cursor-pointer">
-          <Image src="/logo.svg" alt="Logo" width={150} height={36} />
-        </div>
+        <Image src="/logo.svg" alt="Logo" width={150} height={36} />
         <div className="flex items-center gap-3">
           <button className="bg-white text-black p-2 rounded-full hover:scale-105 transition">
             <FaGooglePlay size={18} />
@@ -99,19 +98,17 @@ const HeroSectionContent: React.FC = () => {
       </div>
 
       {/* Hero Section */}
-      <div className="absolute top-0 left-0 z-5 flex items-center justify-center px-6 py-8 sm:px-16 sm:py-10 md:mx-[80px] md:mt-[44px]">
+      <div className="absolute top-0 left-0 z-10 flex items-center justify-center px-6 py-8 sm:px-16 sm:py-10 md:mx-[80px] md:mt-[44px]">
         <div className="mt-24 sm:mt-36 md:mt-48 max-w-xl md:max-w-2xl lg:max-w-3xl flex items-center justify-center">
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Text Section */}
             <div className="w-full md:w-[60%] md:pl-[120px] flex flex-col items-center md:items-start text-center md:text-left">
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.2] tracking-wide"
-              >
-                Track any <br className="hidden md:block"/>                Vessel,Anywhere!
-              </motion.h1>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.2] tracking-wide">
+                  Track any <br className="hidden md:block" />
+                  Vessel,Anywhere!
+                </h1>
+              </div>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -142,6 +139,7 @@ const HeroSectionContent: React.FC = () => {
         </div>
       </div>
 
+      {/* Shooting star animation */}
       <motion.div
         initial={{ opacity: 1, x: 1200, y: -60 }}
         animate={{ opacity: 1, x: -1500, y: 1500 }}
@@ -153,6 +151,6 @@ const HeroSectionContent: React.FC = () => {
       </motion.div>
     </div>
   );
-}
+};
 
-export default HeroSectionContent
+export default HeroSectionContent;
