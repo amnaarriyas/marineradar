@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import VerticalTimeline from './VerticalTimeline'
 
 export const metadata: Metadata = {
-  title: 'Your App Title',
-  description: 'Your app description goes here.',
+  title: 'Marine Radar',
+  description: 'Track any vessel, anywhere.',
 }
 
 export default function RootLayout({
