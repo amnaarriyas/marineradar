@@ -7,87 +7,94 @@ import { useState, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 // === 3D EARTH SPHERE COMPONENT === //
-
 const EarthCanvas = () => {
-  const mountRef = useRef<HTMLDivElement | null>(null)
-  const [isDesktop, setIsDesktop] = useState(false)
+  const mountRef = useRef<HTMLDivElement | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    // Check if the screen width is for desktop
     const updateIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 1024)
-    }
+      setIsDesktop(window.innerWidth >= 1024);
+    };
 
-    updateIsDesktop()
-    window.addEventListener('resize', updateIsDesktop)
+    // Initialize and add resize listener
+    updateIsDesktop();
+    window.addEventListener('resize', updateIsDesktop);
 
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(window.devicePixelRatio)
-    renderer.setClearColor(0x000000, 0)
+    // Three.js setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
 
-    if (mountRef.current) {
-      mountRef.current.innerHTML = '' // Clear any previous canvas
-      mountRef.current.appendChild(renderer.domElement)
-    }
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setClearColor(0x000000, 0);
+    mountRef.current?.appendChild(renderer.domElement);
 
-    const texture = new THREE.TextureLoader().load('/2k_earth_nightmap.jpg')
-    const geometry = new THREE.SphereGeometry(2.5, 32, 32)
-    const material = new THREE.MeshBasicMaterial({ map: texture })
-    const earth = new THREE.Mesh(geometry, material)
+    const texture = new THREE.TextureLoader().load('/2k_earth_nightmap.jpg');
+    const geometry = new THREE.SphereGeometry(2.5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const earth = new THREE.Mesh(geometry, material);
+    scene.add(earth);
 
-    scene.add(earth)
-    camera.position.z = 8
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2)
-    scene.add(ambientLight)
+    camera.position.z = 8;
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+    scene.add(ambientLight);
 
     const animate = () => {
-      requestAnimationFrame(animate)
-      earth.rotation.y += 0.002
-      renderer.render(scene, camera)
-    }
+      requestAnimationFrame(animate);
+      earth.rotation.y += 0.002;
+      renderer.render(scene, camera);
+    };
 
-    animate()
+    animate();
 
+    // Cleanup
     return () => {
-      window.removeEventListener('resize', updateIsDesktop)
-      renderer.dispose()
-    }
-  }, [])
+      window.removeEventListener('resize', updateIsDesktop);
+      renderer.dispose();
+    };
+  }, []);
 
   return (
     <div
       ref={mountRef}
-      className="absolute inset-0 z-0 w-full h-full pointer-events-none max-w-[700px] max-h-[700px] overflow-hidden"
+      className="absolute inset-0 z-0 w-full h-full pointer-events-none"
       style={{
-        transform: isDesktop ? 'translateX(200px)' : 'none',
-        marginLeft: isDesktop ? 'auto' : '0',
+        transform: isDesktop ? 'translateX(200px)' : 'none', // Move the Earth 200px to the right only for desktop screens
       }}
     />
   )
 }
 
 // === HERO CONTENT === //
-
 const HeroSectionContent: React.FC = () => {
-  const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 })
+  const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
+    // Set the window dimensions on the client side
     const updateWindowDimensions = () => {
       setWindowDimensions({
         width: window.innerWidth,
         height: window.innerHeight,
-      })
-    }
+      });
+    };
 
-    updateWindowDimensions()
-    window.addEventListener('resize', updateWindowDimensions)
+    // Initialize dimensions and add resize listener
+    updateWindowDimensions();
+    window.addEventListener('resize', updateWindowDimensions);
 
+    // Cleanup listener on unmount
     return () => {
-      window.removeEventListener('resize', updateWindowDimensions)
-    }
-  }, [])
+      window.removeEventListener('resize', updateWindowDimensions);
+    };
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden">
@@ -143,7 +150,7 @@ const HeroSectionContent: React.FC = () => {
           </motion.button>
         </div>
 
-        {/* Empty spacer for Earth size */}
+        {/* Empty spacer for alignment on large screens */}
         <div className="w-full max-w-[300px] h-[300px] sm:max-w-[350px] sm:h-[350px] md:max-w-[400px] md:h-[400px] relative z-10" />
       </div>
 
@@ -156,13 +163,14 @@ const HeroSectionContent: React.FC = () => {
           y: windowDimensions.height * 2,
         }}
         transition={{ duration: 600, repeat: Infinity, repeatType: "loop" }}
+
         className="absolute top-0 right-0 pointer-events-none"
         style={{ transform: 'scale(3)' }}
       >
         <Image src="/shootingstars.svg" alt="Shooting Star" width={250} height={250} />
       </motion.div>
     </div>
-  )
-}
+  );
+};
 
-export default HeroSectionContent
+export default HeroSectionContent;
