@@ -3,91 +3,15 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FaApple, FaGooglePlay } from 'react-icons/fa';
-import { AiOutlineAppstore } from 'react-icons/ai'; // timeline icon for HeroSection
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
 import './globals.css';
 
-// === 3D EARTH SPHERE COMPONENT === //
-const HeroSection: React.FC = () => {
-  const mountRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    mountRef.current?.appendChild(renderer.domElement);
-
-    const texture = new THREE.TextureLoader().load('/2k_earth_nightmap.jpg');
-    const geometry = new THREE.SphereGeometry(2.5, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const earth = new THREE.Mesh(geometry, material);
-    scene.add(earth);
-
-    camera.position.z = 8;
-
-    const ambientLight = new THREE.AmbientLight(0x404040, 3);
-    scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(5, 5, 5).normalize();
-    scene.add(directionalLight);
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-      earth.rotation.y += 0.01;
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    const handleResize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      renderer.dispose();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={mountRef}
-      className="absolute z-[-1] pointer-events-none"
-      style={{
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-40%, -60%)',
-        width: '100vw',
-        height: '100vh',
-      }}
-    />
-  );
-};
-
-// === HERO CONTENT WITH TEXT AND EARTH === //
 const HeroSectionContent: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden" id="hero">
       {/* Navbar */}
-      <div className="absolute top-0 left-0 w-full z-20 flex items-center justify-between px-6 py-6 sm:px-16 sm:py-8 md:px-24">
-        <Image src="/logo.svg" alt="Logo" width={150} height={36} />
-        <div className="flex items-center gap-3">
+      <div className="absolute top-0 left-0 w-full z-20 flex items-center justify-between px-6 py-6 sm:px-10">
+        <Image src="/logo.svg" alt="Logo" width={130} height={36} />
+        <div className="hidden sm:flex items-center gap-3">
           <button className="bg-white text-black p-2 rounded-full hover:scale-105 transition">
             <FaGooglePlay size={18} />
           </button>
@@ -97,58 +21,73 @@ const HeroSectionContent: React.FC = () => {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <div className="absolute top-0 left-0 z-10 flex items-center justify-center px-6 py-8 sm:px-16 sm:py-10 md:mx-[80px] md:mt-[44px]">
-        <div className="mt-24 sm:mt-36 md:mt-48 max-w-xl md:max-w-2xl lg:max-w-3xl flex items-center justify-center">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            {/* Text Section */}
-            <div className="w-full md:w-[60%] md:pl-[120px] flex flex-col items-center md:items-start text-center md:text-left">
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.2] tracking-wide">
-                  Track any <br className="hidden md:block" />
-                  Vessel,Anywhere!
-                </h1>
-              </div>
+      {/* Hero Content */}
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 pt-40 md:pt-60 gap-12">
+        {/* Text Content */}
+        <div className="w-full md:w-1/2 flex flex-col items-start text-left md:pl-[90px]">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight">
+            Track any <br />
+            Vessel, Anywhere!
+          </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 1 }}
-                className="mt-6 z-11 text-[#AAAAAA] text-base md:text-lg leading-[1.75]"
-              >
-                Stay ahead of the waves!
-              </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 1 }}
+            className="mt-4 text-[#AAAAAA] text-base sm:text-lg"
+          >
+            Stay ahead of the waves!
+          </motion.p>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                className="mt-10 z-20 px-8 py-4 text-base tracking-wider font-normal bg-[#0A84FF] rounded-full shadow-lg text-white transition hover:bg-blue-700"
-              >
-                Try for free
-              </motion.button>
-            </div>
+          {/* Try for free button (Desktop) */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="mt-8 px-8 py-4 text-base tracking-wider font-normal bg-[#0A84FF] rounded-full shadow-lg text-white transition hover:bg-blue-700 hidden sm:inline-block"
+          >
+            Try for free
+          </motion.button>
 
-            {/* Earth Sphere */}
-            <div className="z-10 w-[200px] h-[200px] md:w-[300px] md:h-[300px] relative">
-              <HeroSection />
-            </div>
-          </div>
+          {/* Get the app button (Mobile) */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="mt-8 px-8 py-4 text-base tracking-wider font-normal bg-[#0A84FF] rounded-full shadow-lg text-white transition hover:bg-blue-700 sm:hidden"
+          >
+            Get the app
+          </motion.button>
         </div>
+
+        {/* Placeholder for spacing only on desktop */}
+        <div className="hidden md:block md:w-1/2"></div>
       </div>
 
-      {/* Shooting star animation */}
-      <motion.div
-        initial={{ opacity: 1, x: 1200, y: -60 }}
-        animate={{ opacity: 1, x: -1500, y: 1500 }}
-        transition={{ duration: 500 }}
-        className="hidden md:inline-flex items-center gap-4"
-        style={{ transform: 'scale(1.5)' }}
-      >
-        <Image src="/shootingstars.svg" alt="Shooting Star" width={250} height={250} />
-      </motion.div>
+      {/* Earth Image Positioned Bottom Right (moved further up only for Mobile, further adjustment) */}
+      <div className="absolute right-0 w-[400px] h-[400px] sm:w-[500px] sm:h-[500px] md:w-[650px] md:h-[650px] lg:w-[750px] lg:h-[750px] pointer-events-none z-0 -bottom-20 sm:-bottom-40 md:-bottom-44">
+        <Image
+          src="/earth-visual.png"
+          alt="Earth Visual"
+          layout="fill"
+          objectFit="contain"
+          priority
+        />
+      </div>
+
+      {/* Mobile Store Buttons on Earth Image (Rectangle Shape, Increased Width, Less Spacing, Right Margin) */}
+      <div className="absolute bottom-10 right-4 sm:hidden z-10 flex flex-col items-center w-[60px] rounded-[30px] gap-2">
+        <button className="bg-white text-black px-6 py-3 w-[60px] rounded-[30px] shadow-md flex justify-center items-center">
+          <FaGooglePlay size={24} />
+        </button>
+        <button className="bg-white text-black px-6 py-3 w-[60px] rounded-[30px] shadow-md mt-2 flex justify-center items-center">
+          <FaApple size={24} />
+        </button>
+      </div>
     </div>
   );
 };

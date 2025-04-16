@@ -4,15 +4,15 @@ import Image from 'next/image';
 import { FaCommentDots } from 'react-icons/fa';
 
 const testimonials = [
-  { name: 'Eleanor Pena', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/eleanor.jpg' },
-  { name: 'Robert Fox', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/robert.jpg' },
-  { name: 'Cody Fisher', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/cody.jpg' },
-  { name: 'Darrell Steward', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/darrell.jpg' },
-  { name: 'Dianne Russell', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/dianne.jpg' },
-  { name: 'Guy Hawkins', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/guy.jpg' },
-  { name: 'Kathryn Murphy', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/kathryn.jpg' },
-  { name: 'Marvin McKinney', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/marvin.jpg' },
-  { name: 'Ralph Edwards', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/ralph.jpg' },
+  { name: 'Eleanor Pena', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/eleanor.png' },
+  { name: 'Robert Fox', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/robert.png' },
+  { name: 'Cody Fisher', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/cody.png' },
+  { name: 'Darrell Steward', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/darrell.png' },
+  { name: 'Dianne Russell', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/dianne.png' },
+  { name: 'Guy Hawkins', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/guy.png' },
+  { name: 'Kathryn Murphy', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/kathryn.png' },
+  { name: 'Marvin McKinney', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/marvin.png' },
+  { name: 'Ralph Edwards', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...', img: '/avatars/ralph.png' },
 ];
 
 export default function TestimonialsSection() {

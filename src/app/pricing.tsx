@@ -1,6 +1,6 @@
 'use client';
 
-import { FaShip } from 'react-icons/fa';
+import { FaRegCheckSquare, FaRegWindowClose } from 'react-icons/fa';
 
 const plans = [
   {
@@ -67,13 +67,20 @@ export default function PricingSection() {
               } hover:scale-[1.03] transition-transform duration-300`}
             >
               <h3 className="text-lg font-semibold mb-6">{plan.name}</h3>
-              <ul className="text-sm text-gray-200 space-y-3 mb-8">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-blue-500 shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
+              <ul className="text-sm text-gray-200 space-y-4 mb-8">
+                {plan.features.map((feature, i) => {
+                  const isLast = i === plan.features.length - 1;
+                  return (
+                    <li key={i} className="flex items-center gap-3">
+                      {isLast ? (
+                        <FaRegWindowClose className="text-gray-500" size={18} />
+                      ) : (
+                        <FaRegCheckSquare className="text-blue-500" size={18} />
+                      )}
+                      <span>{feature}</span>
+                    </li>
+                  );
+                })}
               </ul>
               <p className="text-xl font-medium text-white mb-6">{plan.price}</p>
               <button className="w-full py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
